@@ -60,11 +60,12 @@ from .models import Message
 
 class JsTimestampField(serializers.Field):
     def to_representation(self, value):
-        return round(value.timestamp()*1000)
+        return round(value.timestamp())
 
 
 class MessageSerializer(serializers.ModelSerializer):
     timestamp = JsTimestampField()
+
     class Meta:
         model = Message
         fields = ['id', 'content', 'timestamp']
