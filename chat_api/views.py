@@ -34,27 +34,22 @@ class MessageDetail(generics.ListCreateAPIView):
     serializer_class = MessageSerializer
 
 
-class MessageGetHistory(generics.ListAPIView):
+class MessageGetMessages(generics.ListAPIView):
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
 
     def list(self, request, *args, **kwargs):
-        timestamp = datetime.datetime.fromtimestamp(int(request.data['timestamp']))
-        queryset = self.get_queryset()
-        serializer = MessageSerializer(queryset.filter(timestamp__lte=timestamp).order_by('-timestamp')[:20], many=True)
+        if 'timestamp' in request.data.keys():
+            timestamp = datetime.datetime.fromtimestamp(int(request.data['timestamp']))
+            queryset = self.get_queryset()
+            serializer = MessageSerializer(queryset.filter(timestamp__lte=timestamp).order_by('-timestamp')[:20],
+                                           many=True)
+        else:
+            timestamp = datetime.datetime.now().timestamp()
+            queryset = self.get_queryset()
+            serializer = MessageSerializer(queryset.filter(timestamp__gte=timestamp).order_by('timestamp')[:20],
+                                           many=True)
         return Response(serializer.data)
-
-
-class MessageGetUpdates(generics.ListAPIView):
-    queryset = Message.objects.all()
-    serializer_class = MessageSerializer
-
-    def list(self, request, *args, **kwargs):
-        timestamp = datetime.datetime.fromtimestamp(int(request.data['timestamp']))
-        queryset = self.get_queryset()
-        serializer = MessageSerializer(queryset.filter(timestamp__gte=timestamp).order_by('timestamp')[:20], many=True)
-        return Response(serializer.data)
-
 
 
 # class MessageDetail(generics.RetrieveUpdateDestroyAPIView):

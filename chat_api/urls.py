@@ -11,9 +11,7 @@ urlpatterns = [
     # path('users/<int:pk>/', views.UserDetail.as_view()),
     # path('messages/', views.MessageCreate.as_view()),
     path('messages/', views.MessageDetail.as_view()),
-    path('messages/getHistory/', views.MessageGetHistory.as_view()),
-    path('messages/getUpdates/', views.MessageGetUpdates.as_view())
-
+    path('messages/getMessages/', views.MessageGetMessages.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
