@@ -41,14 +41,12 @@ class MessageGetMessages(generics.ListAPIView):
     def list(self, request, *args, **kwargs):
         if 'timestamp' in request.data.keys():
             timestamp = datetime.datetime.fromtimestamp(int(request.data['timestamp']))
-            queryset = self.get_queryset()
-            serializer = MessageSerializer(queryset.filter(timestamp__lte=timestamp).order_by('-timestamp')[:20],
-                                           many=True)
         else:
-            timestamp = datetime.datetime.now().timestamp()
-            queryset = self.get_queryset()
-            serializer = MessageSerializer(queryset.filter(timestamp__gte=timestamp).order_by('timestamp')[:20],
-                                           many=True)
+            timestamp = datetime.datetime.now()
+        queryset = self.get_queryset()
+        serializer = MessageSerializer(queryset.filter(timestamp__lte=timestamp).order_by('-timestamp')[:20],
+                                       many=True)
+
         return Response(serializer.data)
 
 
