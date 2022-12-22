@@ -12,7 +12,6 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
 
         self.group_name = "chat"
         await self.channel_layer.group_add(self.group_name, self.channel_name)
-        await self.channel_layer.group_send(self.group_name, {"type": "chat_user_id", "user_id": self.user_id})
 
         await self.accept()
 
