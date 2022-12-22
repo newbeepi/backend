@@ -10,12 +10,15 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
     async def connect(self):
         self.scope["session"]["seed"] = random.randint(1, 1000)
 
+        self.user_id = random.randint(1, 100000000)
+
         # self.user = self.scope["user"]
 
         # self.room_name = self.scope["url_route"]["kwargs"]["room_name"]
         # self.room_group_name = "chat_%s" % self.room_name
         self.group_name = "chat"
         await self.channel_layer.group_add(self.group_name, self.channel_name)
+        await self.channel_layer.group_send(self.group_name, {"type": "chat_user_id", "user_id": self.user_id})
 
         await self.accept()
 
@@ -35,3 +38,6 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
     async def chat_message(self, event):
         message = event["message"]
         await self.send_json(content={"message": message})
+
+    async def chat_user_id(self, event):
+        await self.send_json(content={"userId": event["user_id"]})
