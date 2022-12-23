@@ -1,5 +1,6 @@
 from django.http import Http404
 from django.contrib.auth.models import User
+from django.utils import timezone
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -39,14 +40,15 @@ class MessageGetMessages(generics.ListAPIView):
     serializer_class = MessageSerializer
 
     def list(self, request, *args, **kwargs):
-        if 'timestamp' in request.data.keys():
-            timestamp = datetime.datetime.fromtimestamp(int(request.data['timestamp']))
-        else:
-            timestamp = datetime.datetime.now()
+        # if 'timestamp' in request.data.keys():
+        #     timestamp = datetime.datetime.fromtimestamp(int(request.data['timestamp']))
+        # else:
+        #     timestamp = datetime.datetime.now()
+        # queryset = self.get_queryset()
+        # serializer = MessageSerializer(queryset.filter(timestamp__lte=timestamp).order_by('-timestamp')[:20],
+        #                                many=True)
         queryset = self.get_queryset()
-        serializer = MessageSerializer(queryset.filter(timestamp__lte=timestamp).order_by('-timestamp')[:20],
-                                       many=True)
-
+        serializer = MessageSerializer(queryset.filter(timestamp__lte=timezone.now()).order_by('-timestamp')[:20])
         return Response(serializer.data)
 
 

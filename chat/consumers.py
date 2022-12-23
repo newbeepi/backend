@@ -5,6 +5,8 @@ from channels.generic.websocket import AsyncWebsocketConsumer, AsyncJsonWebsocke
 from channels.auth import login
 from channels.db import database_sync_to_async
 
+from operations_with_db import save_message
+
 
 class ChatConsumer(AsyncJsonWebsocketConsumer):
     async def connect(self):
@@ -22,6 +24,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
         data_json = json.loads(text_data)
         message = data_json["message"]
         username = data_json["username"]
+        save_message()
         await self.channel_layer.group_send(self.group_name,
                                             {"type": "chat_message",
                                              "message": message,
