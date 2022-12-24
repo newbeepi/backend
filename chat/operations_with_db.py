@@ -8,7 +8,6 @@ from chat_api.models import Message
 def save_message(username, message):
     message = Message(username=username, message=message)
     message.save()
-    return message.timestamp
 
 
 @sync_to_async()
