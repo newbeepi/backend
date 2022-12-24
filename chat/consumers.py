@@ -5,7 +5,7 @@ from channels.generic.websocket import AsyncJsonWebsocketConsumer
 from rest_framework.renderers import JSONRenderer
 
 from chat_api.serializers import MessageSerializer
-from operations_with_db import save_message, get_chat_history
+from .operations_with_db import save_message, get_chat_history
 
 
 class ChatConsumer(AsyncJsonWebsocketConsumer):
