@@ -19,6 +19,6 @@ from django.contrib.auth.models import User
 
 class Message(models.Model):
     username = models.CharField(max_length=100)
-    content = models.CharField(max_length=1000)
+    message = models.CharField(max_length=1000)
     timestamp = models.DateTimeField(auto_now_add=True)
 

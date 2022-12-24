@@ -41,5 +41,5 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
     async def chat_history(self, event):
         history = event["history"]
         serializer = MessageSerializer(history)
-        json_history = JSONRenderer().render(serializer.data)
-        await self.send(text_data={"history": json_history})
+        json_history = JSONRenderer().render({"history": serializer.data})
+        await self.send(text_data=json_history)
