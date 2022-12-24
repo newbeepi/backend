@@ -41,4 +41,4 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
 
     async def chat_history(self, event):
         json_history = event["history"]
-        await self.send(text_data=json_history)
+        await self.send(bytes_data=json_history)
