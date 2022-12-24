@@ -16,7 +16,8 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
         await self.channel_layer.group_add(self.group_name, self.channel_name)
 
         await self.accept()
-        await self.channel_layer.send(self.channel_name, {"type": "chat_history", "history": get_chat_history()})
+        history = await get_chat_history()
+        await self.channel_layer.send(self.channel_name, {"type": "chat_history", "history": history})
 
     async def disconnect(self, code):
         await self.channel_layer.group_discard(self.group_name, self.channel_name)
