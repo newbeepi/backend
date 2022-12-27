@@ -16,9 +16,5 @@ def save_message(username, message):
 
 @sync_to_async()
 def get_chat_history():
-    history = Message.objects.filter(timestamp__lte=timezone.now()).order_by('-timestamp')[:20]
-    serializer = MessageSerializer(history, many=True)
-    json_history = JSONRenderer().render({"history": serializer.data})
-    stream = io.BytesIO(json_history)
-    data = JSONParser().parse(stream)
-    return data
+    history = Message.objects.order_by('-id')[:20].values()
+    return history
