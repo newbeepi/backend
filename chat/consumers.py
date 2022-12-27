@@ -25,14 +25,10 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
         logger.info("Connected")
 
         logger.info("Getting messages history")
-        try:
-            history = await get_chat_history()
-        except Exception as e:
-            logger.error(e)
-            return
+        history = await get_chat_history()
         logger.info("Success")
 
-        logger.info("Sending chat history {history}".format(history=history))
+        logger.info("Sending chat history")
         await self.channel_layer.send(self.channel_name, {"type": "chat_history", "history": history})
 
         logger.info("Sent")
