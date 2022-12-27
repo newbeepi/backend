@@ -17,5 +17,5 @@ def save_message(username, message):
 
 @sync_to_async()
 def get_chat_history():
-    history = Message.objects.order_by('-pk')[:20].values()
+    history = Message.objects.order_by('-pk')[:20].values("id", "username", "message", "timestamp_value")
     return list(history)

@@ -22,3 +22,8 @@ class Message(models.Model):
     message = models.CharField(max_length=1000)
     timestamp = models.DateTimeField(auto_now_add=True)
 
+    @property
+    def timestamp_value(self):
+        return self.timestamp.timestamp()
+
+
