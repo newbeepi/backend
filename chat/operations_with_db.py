@@ -19,5 +19,5 @@ def save_message(username, message):
 def get_chat_history():
     history = Message.objects.order_by('-pk')[:20]
     history = [{"id": message.id, "username": message.username, "message": message.message,
-                "timestamp": message.timestamp_value} for message in history]
+                "timestamp": int(message.timestamp_value)} for message in history]
     return history
