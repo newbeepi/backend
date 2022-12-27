@@ -33,6 +33,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
             await self.channel_layer.send(self.channel_name, {"type": "chat_history", "history": history})
         except Exception as e:
             logger.error(e)
+            return
         logger.info("Sent")
 
     async def disconnect(self, code):
