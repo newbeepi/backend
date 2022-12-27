@@ -32,7 +32,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
             return
         logger.info("Success")
 
-        logger.info("Sending chat history")
+        logger.info("Sending chat history {history}".format(history=history))
         await self.channel_layer.send(self.channel_name, {"type": "chat_history", "history": history})
 
         logger.info("Sent")
